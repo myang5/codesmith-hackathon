@@ -1,7 +1,7 @@
-let setTimeBtn = document.getElementById('setTime');
+chrome.tabs.onMessage.addListener(function(message) {
+  console.log(message);
+})
 
-let time = 5000;
-let isBlur = false;
 
 setTimeBtn.onclick = function (e) {
   let input = document.getElementById('time').value;

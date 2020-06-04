@@ -1,0 +1,4 @@
+img, video {
+  filter: unset;
+  -webkit-filter: unset;
+}
