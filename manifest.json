@@ -2,7 +2,7 @@
   "name": "Snooze News",
   "version": "1.0",
   "description": "Take a negative news break and recharge",
-  "permissions": ["activeTab", "declarativeContent","storage"],
+  "permissions": ["tabs", "activeTab", "declarativeContent","storage"],
   "background": {
     "scripts": ["background.js"],
     "persistent": false
@@ -16,6 +16,12 @@
       "128": "images/live-news128.png"
     }
   },
+  "content_scripts": [
+    {
+      "matches": ["*://*.nytimes.com/*"],
+      "js": ["blur/blur.js"]
+    }
+  ],
   "icons": {
     "16": "images/live-news16.png",
     "32": "images/live-news32.png",

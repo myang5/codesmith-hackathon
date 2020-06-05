@@ -10,14 +10,34 @@ chrome.runtime.onInstalled.addListener(function () {
   });
 });
 
-//let blur = true;
 
-//chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-//  console.log(tabId, changeInfo, tab);
-//  if(changeInfo.status === 'complete') {
-//    chrome.tabs.sendMessage( tabId, {
-//      isBlur: blur,
-//    })
-//  }
+chrome.runtime.onMessage.addListener(
+  function (message, sender) {
+    if (message.hasOwnProperty('isBlur')) {
+      chrome.browserAction.setIcon({
+        path: {
+          '16': 'images/snooze-news16.png',
+          '32': 'images/snooze-news32.png'
+        }
+      });
+      chrome.tabs.query({ url: "*://*.nytimes.com/*" }, function (tabs) {
+        tabs.forEach(tab => {
+          chrome.tabs.sendMessage(tab.id, { isBlur: true });
+        })
+      });
 
-//})
+      setTimeout(() => {
+        chrome.browserAction.setIcon({
+          path: {
+            '16': 'images/live-news16.png',
+            '32': 'images/live-news32.png'
+          }
+        });
+        chrome.tabs.query({ url: "*://*.nytimes.com/*" }, function (tabs) {
+          tabs.forEach(tab => {
+            chrome.tabs.sendMessage(tab.id, { isBlur: false });
+          })
+        });
+      }, message.time);
+    }
+  });
